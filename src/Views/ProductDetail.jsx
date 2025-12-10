@@ -25,16 +25,19 @@ const ProductDetail = () => {
   const cargarProducto = async () => {
     try {
       setLoading(true);
-      //const response = await axios.get(`http://localhost:8080/prendas/${id}`);
       const response = await axios.get(`${API_CONFIG.BASE_URL}/prendas/${id}`);
       setProducto(response.data);
       
-      //const relacionadosResponse = await axios.get(`http://localhost:8080/prendas/categoria/${response.data.categoria}`);
       const relacionadosResponse = await axios.get(`${API_CONFIG.BASE_URL}/prendas/categoria/${response.data.categoria}`);
-      setProductosRelacionados(relacionadosResponse.data.filter(p => p.id !== response.data.id).slice(0, 4));
+      
+      // Asegurar que siempre sea un array
+      const relacionados = Array.isArray(relacionadosResponse.data) ? relacionadosResponse.data : [];
+      setProductosRelacionados(relacionados.filter(p => p.id !== response.data.id).slice(0, 4));
       
     } catch (err) {
+      console.error('Error al cargar producto:', err);
       setError('Error al cargar el producto');
+      setProductosRelacionados([]); // Asegurar array vacío en caso de error
     } finally {
       setLoading(false);
     }

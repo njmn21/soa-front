@@ -34,22 +34,24 @@ const Marketplace = () => {
   }, [isAuthenticated]);
 
   const cargarPrendas = async () => {
-  try {
-    setLoading(true);
-    const skip = (page - 1) * pageSize;
-    
-    // Agrega una barra al final para evitar la redirección 307
-    //const response = await axios.get(`http://localhost:8080/prendas/?skip=${skip}&limit=${pageSize}`);
-    const response = await axios.get(`${API_CONFIG.BASE_URL}/prendas/?skip=${skip}&limit=${pageSize}`);
-    
-    setPrendas(response.data.items || response.data);
-    setTotal(response.data.total || response.data.length);
-  } catch (err) {
-    setError('Error al cargar las prendas');
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      setLoading(true);
+      const skip = (page - 1) * pageSize;
+      
+      const response = await axios.get(`${API_CONFIG.BASE_URL}/prendas/?skip=${skip}&limit=${pageSize}`);
+      
+      // Asegurar que siempre sea un array
+      const data = response.data.items || response.data;
+      setPrendas(Array.isArray(data) ? data : []);
+      setTotal(response.data.total || (Array.isArray(data) ? data.length : 0));
+    } catch (err) {
+      console.error('Error al cargar prendas:', err);
+      setError('Error al cargar las prendas');
+      setPrendas([]); // Asegurar que sea un array vacío en caso de error
+    } finally {
+      setLoading(false);
+    }
+  };
   const cargarFavoritosUsuario = async () => {
     try {
       const idCliente = getIdCliente();

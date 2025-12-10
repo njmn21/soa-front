@@ -48,16 +48,18 @@ const Search = () => {
       setLoading(true);
       const skip = (page - 1) * pageSize;
       
-      // Usar el endpoint de búsqueda que creaste
       const response = await axios.get(
-        //`http://localhost:8080/prendas/search?texto=${encodeURIComponent(searchQuery)}&skip=${skip}&limit=${pageSize}`
         `${API_CONFIG.BASE_URL}/prendas/search?texto=${encodeURIComponent(searchQuery)}&skip=${skip}&limit=${pageSize}`
       );
       
-      setPrendas(response.data.items || response.data);
-      setTotal(response.data.total || response.data.length);
+      // Asegurar que siempre sea un array
+      const data = response.data.items || response.data;
+      setPrendas(Array.isArray(data) ? data : []);
+      setTotal(response.data.total || (Array.isArray(data) ? data.length : 0));
     } catch (err) {
+      console.error('Error al buscar prendas:', err);
       setError('Error al buscar las prendas');
+      setPrendas([]); // Asegurar que sea un array vacío en caso de error
     } finally {
       setLoading(false);
     }
