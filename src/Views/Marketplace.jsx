@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_CONFIG from '../config/apiConfig';
 import Navbar from './Modals/Navbar';
 import Banner from './Modals/Banner';
 import Footer from './Modals/Footer';
@@ -39,7 +40,7 @@ const Marketplace = () => {
     
     // Agrega una barra al final para evitar la redirección 307
     //const response = await axios.get(`http://localhost:8080/prendas/?skip=${skip}&limit=${pageSize}`);
-    const response = await axios.get(`https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/prendas/?skip=${skip}&limit=${pageSize}`);
+    const response = await axios.get(`${API_CONFIG.BASE_URL}/prendas/?skip=${skip}&limit=${pageSize}`);
     
     setPrendas(response.data.items || response.data);
     setTotal(response.data.total || response.data.length);
@@ -150,7 +151,7 @@ const Marketplace = () => {
               <div className="product-card w-100">
                 <img
                   //src={prenda.url_imagen_completa || `http://localhost:8082/static/${prenda.ruta_imagen}`}
-                  src={prenda.url_imagen_completa || `https://clothing-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/static/${prenda.ruta_imagen}`}
+                  src={prenda.url_imagen_completa || `${API_CONFIG.IMAGE_BASE_URL}/${prenda.ruta_imagen}`}
                   className="product-image"
                   alt={prenda.descripcion}
                   onError={(e) => (e.target.src = 'https://via.placeholder.com/300x300?text=Sin+Imagen')}

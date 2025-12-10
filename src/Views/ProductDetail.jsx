@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import API_CONFIG from '../config/apiConfig';
 import Navbar from './Modals/Navbar';
 import Footer from './Modals/Footer';
 import '../css/ProductDatail.css';
@@ -25,11 +26,11 @@ const ProductDetail = () => {
     try {
       setLoading(true);
       //const response = await axios.get(`http://localhost:8080/prendas/${id}`);
-      const response = await axios.get(`https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/prendas/${id}`);
+      const response = await axios.get(`${API_CONFIG.BASE_URL}/prendas/${id}`);
       setProducto(response.data);
       
       //const relacionadosResponse = await axios.get(`http://localhost:8080/prendas/categoria/${response.data.categoria}`);
-      const relacionadosResponse = await axios.get(`https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/prendas/categoria/${response.data.categoria}`);
+      const relacionadosResponse = await axios.get(`${API_CONFIG.BASE_URL}/prendas/categoria/${response.data.categoria}`);
       setProductosRelacionados(relacionadosResponse.data.filter(p => p.id !== response.data.id).slice(0, 4));
       
     } catch (err) {
@@ -95,12 +96,9 @@ const ProductDetail = () => {
 
   // Simular múltiples imágenes (en un caso real vendrían del backend)
   const imagenes = [
-    // producto.url_imagen_completa || `http://localhost:8082/static/imagenes/${producto.ruta_imagen.split('/').pop()}`,
-    // producto.url_imagen_completa || `http://localhost:8082/static/imagenes/${producto.ruta_imagen.split('/').pop()}`,
-    // producto.url_imagen_completa || `http://localhost:8082/static/imagenes/${producto.ruta_imagen.split('/').pop()}`,
-    producto.url_imagen_completa || `https://clothing-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/static/imagenes/${producto.ruta_imagen.split('/').pop()}`,
-    producto.url_imagen_completa || `https://clothing-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/static/imagenes/${producto.ruta_imagen.split('/').pop()}`,
-    producto.url_imagen_completa || `https://clothing-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/static/imagenes/${producto.ruta_imagen.split('/').pop()}`,
+    producto.url_imagen_completa || `${API_CONFIG.IMAGE_BASE_URL}/imagenes/${producto.ruta_imagen.split('/').pop()}`,
+    producto.url_imagen_completa || `${API_CONFIG.IMAGE_BASE_URL}/imagenes/${producto.ruta_imagen.split('/').pop()}`,
+    producto.url_imagen_completa || `${API_CONFIG.IMAGE_BASE_URL}/imagenes/${producto.ruta_imagen.split('/').pop()}`,
   ];
 
   return (
@@ -266,7 +264,7 @@ const ProductDetail = () => {
                   <div className="product-card h-100">
                     <img 
                       //src={productoRel.url_imagen_completa || `http://localhost:8082/static/imagenes/${productoRel.ruta_imagen.split('/').pop()}`}
-                      src={productoRel.url_imagen_completa || `https://clothing-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/static/imagenes/${productoRel.ruta_imagen.split('/').pop()}`}
+                      src={productoRel.url_imagen_completa || `${API_CONFIG.IMAGE_BASE_URL}/imagenes/${productoRel.ruta_imagen.split('/').pop()}`}
                       className="product-image"
                       alt={productoRel.descripcion}
                       onError={(e) => {

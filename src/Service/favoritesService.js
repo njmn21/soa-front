@@ -1,5 +1,6 @@
-//const API_BASE = 'http://localhost:8080';
-const API_BASE = 'https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io';
+import API_CONFIG from '../config/apiConfig';
+
+const API_BASE = API_CONFIG.BASE_URL;
 
 export const favoritesService = {
   

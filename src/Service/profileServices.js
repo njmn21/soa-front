@@ -1,9 +1,8 @@
 import axios from 'axios';
+import API_CONFIG from '../config/apiConfig';
 
-//const API_BASE_URL = 'http://localhost:8080';
-const API_BASE_URL = 'https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io';
-//const IMAGE_BASE_URL = 'http://localhost:8082/static';
-const IMAGE_BASE_URL = 'https://clothing-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/static';
+const API_BASE_URL = API_CONFIG.BASE_URL;
+const IMAGE_BASE_URL = API_CONFIG.IMAGE_BASE_URL;
 
 const cuentaService = {
   // Obtener información del usuario
@@ -19,8 +18,7 @@ const cuentaService = {
   // Obtener prendas del usuario
   obtenerPrendasUsuario: async (usuarioId) => {
     try {
-      //const response = await axios.get(`http://localhost:8080/prendas/usuario/${usuarioId}`);
-      const response = await axios.get(`https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/prendas/usuario/${usuarioId}`);
+      const response = await axios.get(`${API_BASE_URL}/prendas/usuario/${usuarioId}`);
       
       // Procesar las imágenes para tener la URL completa
       const prendasConImagen = response.data.map(prenda => ({

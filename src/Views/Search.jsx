@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import API_CONFIG from '../config/apiConfig';
 import Navbar from './Modals/Navbar';
 import Footer from './Modals/Footer';
 import { useAuth } from '../Service/useAuth';
@@ -50,7 +51,7 @@ const Search = () => {
       // Usar el endpoint de búsqueda que creaste
       const response = await axios.get(
         //`http://localhost:8080/prendas/search?texto=${encodeURIComponent(searchQuery)}&skip=${skip}&limit=${pageSize}`
-        `https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/prendas/search?texto=${encodeURIComponent(searchQuery)}&skip=${skip}&limit=${pageSize}`
+        `${API_CONFIG.BASE_URL}/prendas/search?texto=${encodeURIComponent(searchQuery)}&skip=${skip}&limit=${pageSize}`
       );
       
       setPrendas(response.data.items || response.data);
@@ -176,7 +177,7 @@ const Search = () => {
                   <div className="product-card w-100">
                     <img
                       //src={prenda.url_imagen_completa || `http://localhost:8082/static/${prenda.ruta_imagen}`}
-                      src={prenda.url_imagen_completa || `https://clothing-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/static/${prenda.ruta_imagen}`}
+                      src={prenda.url_imagen_completa || `${API_CONFIG.IMAGE_BASE_URL}/${prenda.ruta_imagen}`}
                       className="product-image"
                       alt={prenda.descripcion}
                       onError={(e) => (e.target.src = 'https://via.placeholder.com/300x300?text=Sin+Imagen')}

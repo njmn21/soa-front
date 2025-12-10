@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import API_CONFIG from '../config/apiConfig';
 import Navbar from './Modals/Navbar';
 import Footer from './Modals/Footer';
 import { useAuth } from '../Service/useAuth';
@@ -185,7 +186,7 @@ const Favorites = () => {
                   <div className="position-relative">
                     <img 
                       //src={`http://localhost:8082/static/imagenes/${prenda.ruta_imagen.split('/').pop()}`}
-                      src={`https://clothing-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/static/imagenes/${prenda.ruta_imagen.split('/').pop()}`}
+                      src={`${API_CONFIG.IMAGE_BASE_URL}/imagenes/${prenda.ruta_imagen.split('/').pop()}`}
                       className="product-image"
                       alt={prenda.descripcion}
                       onError={(e) => {

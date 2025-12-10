@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import API_CONFIG from '../config/apiConfig';
 import AlertModal from './Modals/AlertModal';
 import '../css/AuthTheme.css';
 import volcanImg from '../img/AqpMarketplace Logo Versión Invertida.png';
@@ -64,8 +65,7 @@ const Register = () => {
     }
 
     try {
-      //const response = await axios.post('http://localhost:8080/api/usuarios/registro', {
-      const response = await axios.post('https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/api/usuarios/registro', {
+      const response = await axios.post(`${API_CONFIG.BASE_URL}/api/usuarios/registro`, {
         nombre: formData.nombre,
         correo: formData.correo,
         telefono: formData.telefono,

@@ -1,7 +1,7 @@
 import axios from 'axios';
+import API_CONFIG from '../config/apiConfig';
 
-//const API_GATEWAY_URL = 'http://localhost:8080';
-const API_GATEWAY_URL = 'https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io';
+const API_GATEWAY_URL = API_CONFIG.BASE_URL;
 
 const authService = {
   login: async (email, password) => {
