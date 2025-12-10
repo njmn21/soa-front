@@ -29,30 +29,32 @@ Todos los archivos de servicios y vistas ahora usan `API_CONFIG`:
 
 ## Configuración en Vercel
 
-### Opción 1: Despliegue Simple (Recomendado)
-Solo necesitas hacer commit y push de estos cambios. El archivo `vercel.json` configurará el proxy automáticamente.
+### Paso 1: Desplegar el Código
+Haz commit y push de todos los cambios:
 
 ```bash
 git add .
-git commit -m "Fix CORS issues with proxy configuration"
+git commit -m "Fix: Configuración CORS con proxy para Vercel"
 git push
 ```
 
-### Opción 2: Con Variables de Entorno (Opcional)
-Si quieres más control, puedes configurar variables de entorno en Vercel:
+### Paso 2: Configurar Variables de Entorno en Vercel
 
-1. Ve a tu proyecto en Vercel Dashboard
+**IMPORTANTE**: Debes configurar esta variable de entorno en Vercel para activar el proxy:
+
+1. Ve a tu proyecto en Vercel Dashboard (https://vercel.com)
 2. Settings → Environment Variables
-3. Agrega las siguientes variables:
+3. Agrega esta variable:
 
 ```
-REACT_APP_API_BASE_URL=https://gateway-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io
-REACT_APP_IMAGE_BASE_URL=https://clothing-container-app.greenriver-26d96275.eastus2.azurecontainerapps.io/static
+Variable: REACT_APP_USE_PROXY
+Value: true
+Environment: Production (y Preview si quieres)
 ```
 
-4. Redeploy tu aplicación
+4. **Redeploy** tu aplicación para que tome la nueva variable
 
-### Opción 3: Configurar CORS en el Backend (Solución Permanente)
+Sin esta variable, la app intentará conectarse directamente a Azure y tendrás errores CORS.
 La mejor solución a largo plazo es configurar CORS en tu API Gateway:
 
 **En tu backend (FastAPI/Python), agrega:**
